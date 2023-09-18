@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Casa de Cambio</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #casaDeCambioForm {
+            text-align: center;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="radio"] {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CASA DE CAMBIO</h1>
+    <div class="container">
+        <form id="casaDeCambioForm">
+            <label for="cantidad">Ingrese monto:</label>
+            <input type="number" id="cantidad" required>
+            
+            <label>Tipo de moneda:</label>
+            <input type="radio" id="dolarOrigen" name="monedaOrigen" value="dolar">
+            <label for="dolarOrigen">Dólar</label>
+            <input type="radio" id="euroOrigen" name="monedaOrigen" value="euro">
+            <label for="euroOrigen">Euro</label>
+            <input type="radio" id="solesOrigen" name="monedaOrigen" value="soles">
+            <label for="solesOrigen">Soles</label>
+            
+            <br> 
+
+            <label>Cambiar a:</label>
+            <input type="radio" id="dolarDestino" name="monedaDestino" value="dolar">
+            <label for="dolarDestino">Dólar</label>
+            <input type="radio" id="euroDestino" name="monedaDestino" value="euro">
+            <label for="euroDestino">Euro</label>
+            <input type="radio" id="solesDestino" name="monedaDestino" value="soles">
+            <label for="solesDestino">Soles</label>
+            
+            <br> 
+
+            <button type="button" onclick="calcularTotal()">Cotizar</button>
+        </form>
+    </div>
+
+    <script>
+        function calcularTotal() {
+            
+            const monedaOrigen = document.querySelector('input[name="monedaOrigen"]:checked');
+            if (!monedaOrigen) {
+                alert("Selecciona una moneda de origen.");
+                return;
+            }
+
+            
+            const monedaDestino = document.querySelector('input[name="monedaDestino"]:checked');
+            if (!monedaDestino) {
+                alert("Selecciona una moneda de destino.");
+                return;
+            }
+
+           
+            const cantidad = parseFloat(document.getElementById("cantidad").value);
+
+            if (isNaN(cantidad)) {
+                alert("Ingresa un monto válido.");
+                return;
+            }
+
+            
+            const monedaOrigenSeleccionada = monedaOrigen.value;
+            const monedaDestinoSeleccionada = monedaDestino.value;
+
+            
+            const tasasDeCambio = {
+                dolar: 1.0,
+                euro: 0.85,
+                soles: 4.0
+            };
+
+            // Realizar la conversión
+            const tasaOrigen = tasasDeCambio[monedaOrigenSeleccionada];
+            const tasaDestino = tasasDeCambio[monedaDestinoSeleccionada];
+            const total = (cantidad * tasaDestino) / tasaOrigen;
+
+            // Mostrar el resultado en una alerta
+            alert(`Total a recibir: ${total.toFixed(2)} ${monedaDestinoSeleccionada}`);
+        }
+    </script>
+</body>
+</html>
